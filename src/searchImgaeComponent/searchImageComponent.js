@@ -45,7 +45,7 @@ class SearchImage extends ContentComponent {
     document.querySelector('#header').insertAdjacentHTML('beforeend', markup);
     document.querySelector('.dog-search button').addEventListener('click', (event) => {
       event.preventDefault();
-      const searchTerm = document.querySelector('.dog-search input').value;
+      const searchTerm = document.querySelector('.dog-search input').value.toLowerCase();
       if (!searchTerm) {
         this.displayError('Kérlek elsőnek adj meg egy kereső szót!');
         return;
