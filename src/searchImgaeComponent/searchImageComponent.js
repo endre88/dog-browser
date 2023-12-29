@@ -27,7 +27,6 @@ class SearchImage extends ContentComponent {
     return data.message;
   }
   displayImage(imageList) {
-    this.clearDogs();
     this.clearErrors();
     const image = document.createElement('img');
     image.src = imageList[Math.floor(Math.random() * imageList.length)];
@@ -39,9 +38,9 @@ class SearchImage extends ContentComponent {
         <form class="dog-search">
             <span class="search-icon"></span>
             <input type="text" id="dogSearchInput">
+	          <input type="text" id="imageNumberInput" placeholder="1">
             <button type="submit">Search</button>
-        </form>
-`;
+        </form>`;
     document.querySelector('#header').insertAdjacentHTML('beforeend', markup);
     document.querySelector('.dog-search button').addEventListener('click', (event) => {
       event.preventDefault();
@@ -52,6 +51,16 @@ class SearchImage extends ContentComponent {
       }
       this.getImages(searchTerm)
         .then((imageList) => {
+          let count = Math.floor(Number(document.querySelector('#imageNumberInput').value)); //Az imageList változó csak itt létezik, ezért került ide a 2. feladat megoldása
+          if (isNaN(count) || count < 1 || count === '') {
+            count = 1;
+            document.querySelector('#imageNumberInput').value = count;
+          }
+          console.log(count);
+          this.clearDogs();
+          for (let i = 1; i < count; i++) {
+            this.displayImage(imageList);
+          }
           if (imageList) {
             this.displayImage(imageList);
           } else {
