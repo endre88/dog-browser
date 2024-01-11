@@ -9,7 +9,8 @@
     "dev": "webpack serve --config webpack.config.js --mode=development --open",
     "format": "prettier --write \"src/**/*.{js,jsx}\"",
     "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
-    "stylelint": "stylelint --fix ./src/**/*.css"
+    "stylelint": "stylelint --fix ./src/**/*.css",
+    "deploy": " gh-pages -d dist"
   },
   "keywords": [],
   "author": "",
@@ -32,6 +33,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.11",
     "file-loader": "^6.2.0",
+    "gh-pages": "^6.1.1",
     "html-loader": "^4.2.0",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.7.1",
