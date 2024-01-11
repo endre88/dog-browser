@@ -51,7 +51,8 @@ class SearchImage extends ContentComponent {
       }
       this.getImages(searchTerm)
         .then((imageList) => {
-          let count = Math.floor(Number(document.querySelector('#imageNumberInput').value)); //Az imageList változó csak itt létezik, ezért került ide a 2. feladat megoldása
+          //Az imageList object csak itt jön létre az aszinkron művelet után.
+          let count = Math.floor(Number(document.querySelector('#imageNumberInput').value));
           if (isNaN(count) || count < 1 || count === '') {
             count = 1;
             document.querySelector('#imageNumberInput').value = count;
@@ -59,7 +60,7 @@ class SearchImage extends ContentComponent {
           console.log(count);
           this.clearDogs();
           for (let i = 1; i < count; i++) {
-            this.displayImage(imageList);
+            this.displayImage(imageList); //Az imageList változó csak itt létezik, ezért került ide a 2. feladat megoldása
           }
           if (imageList) {
             this.displayImage(imageList);
