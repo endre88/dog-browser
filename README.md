@@ -15,3 +15,6 @@ This app allows you to search for dogs by breed. It will give you a random image
 ## to build the app, run: 
 ```npm run build```
 
+## Live version:
+
+https://endre88.github.io/dog-browser/
