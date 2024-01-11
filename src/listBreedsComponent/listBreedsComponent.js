@@ -7,12 +7,17 @@ class ListBreeds extends ContentComponent {
     this.render();
   }
   async getFullList() {
-    const response = await fetch('https://dog.ceo/api/breeds/list/all');
-    if (!response.ok) {
-      throw new Error('Nem sikerült lekérni a kutyafajtákat');
+    if (localStorage.getItem('dogs') === null) {
+      const response = await fetch('https://dog.ceo/api/breeds/list/all');
+      if (!response.ok) {
+        throw new Error('Nem sikerült lekérni a kutyafajtákat');
+      }
+      const data = await response.json();
+      localStorage.setItem('dogs', JSON.stringify(data));
+    } else {
+      const dog = JSON.parse(localStorage.getItem('dogs'));
+      return dog.message;
     }
-    const data = await response.json();
-    return data.message;
   }
 
   createListItem(breedName) {
