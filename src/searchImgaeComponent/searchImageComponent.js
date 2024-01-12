@@ -9,7 +9,6 @@ class SearchImage extends ContentComponent {
     this.render();
   }
   //megjeleníti az oldalon a hibaüzenetet úgy hogy html-be csomagolja
-
   async getImages(dogBreed) {
     dogBreed = dogBreed.split(' ');
     let urlString;
@@ -37,8 +36,38 @@ class SearchImage extends ContentComponent {
     document.querySelector('#content').appendChild(image).classList.add('lazy');
     lazyLoadInstance.update();
   }
+  handleSearch() {
+    const searchTerm = document.querySelector('.dog-search input').value.toLowerCase();
+
+    if (!searchTerm) {
+      this.displayError('Kérlek elsőnek adj meg egy kereső szót!');
+      return;
+    }
+    this.getImages(searchTerm)
+      .then((imageList) => {
+        //Az imageList object csak itt jön létre az aszinkron művelet után.
+        let count = Math.floor(Number(document.querySelector('#imageNumberInput').value));
+        if (isNaN(count) || count < 1 || count === '') {
+          count = 1;
+          document.querySelector('#imageNumberInput').value = count;
+        }
+        this.clearDogs();
+        for (let i = 1; i < count; i++) {
+          this.displayImage(imageList); //Az imageList változó csak itt létezik, ezért került ide a 2. feladat megoldása
+        }
+        if (imageList) {
+          this.displayImage(imageList);
+        } else {
+          this.displayError('Nincs ilyen kereső szó!');
+        }
+      })
+      .catch((error) => {
+        this.displayError('Hoppá valami félrement');
+        console.error(error);
+      });
+  }
   render() {
-    //html elemeket hoz létre a header-ben
+    //html elemet hoz létre a header-ben
     const markup = ` 
         <form class="dog-search">
             <span class="search-icon"></span>
@@ -47,35 +76,13 @@ class SearchImage extends ContentComponent {
             <button type="submit">Search</button>
         </form>`;
     document.querySelector('#header').insertAdjacentHTML('beforeend', markup);
+    document.addEventListener('onSearch', (e) => {
+      document.querySelector('.dog-search input').value = e.detail;
+      this.handleSearch();
+    });
     document.querySelector('.dog-search button').addEventListener('click', (event) => {
       event.preventDefault();
-      const searchTerm = document.querySelector('.dog-search input').value.toLowerCase();
-      if (!searchTerm) {
-        this.displayError('Kérlek elsőnek adj meg egy kereső szót!');
-        return;
-      }
-      this.getImages(searchTerm)
-        .then((imageList) => {
-          //Az imageList object csak itt jön létre az aszinkron művelet után.
-          let count = Math.floor(Number(document.querySelector('#imageNumberInput').value));
-          if (isNaN(count) || count < 1 || count === '') {
-            count = 1;
-            document.querySelector('#imageNumberInput').value = count;
-          }
-          this.clearDogs();
-          for (let i = 1; i < count; i++) {
-            this.displayImage(imageList); //Az imageList változó csak itt létezik, ezért került ide a 2. feladat megoldása
-          }
-          if (imageList) {
-            this.displayImage(imageList);
-          } else {
-            this.displayError('Nincs ilyen kereső szó!');
-          }
-        })
-        .catch((error) => {
-          this.displayError('Hoppá valami félrement');
-          console.error(error);
-        });
+      this.handleSearch();
     });
   }
 }

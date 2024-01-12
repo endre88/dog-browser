@@ -39,6 +39,7 @@ input {
 #content img {
   border-radius: 10px;
   object-fit: cover;
+  object-fit: contain;
   max-width: 20%;
   margin: 1rem;
 }
