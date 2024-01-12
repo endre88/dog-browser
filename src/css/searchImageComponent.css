@@ -42,3 +42,20 @@ input {
   max-width: 20%;
   margin: 1rem;
 }
+img.lazy {
+  opacity: 0.7;
+}
+/* stylelint-disable-next-line no-descending-specificity */
+img:not(.initial) {
+  transition: opacity 2s;
+}
+img.initial,
+img.loaded,
+img.error {
+  opacity: 1;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+img:not([src]) {
+  visibility: hidden;
+}

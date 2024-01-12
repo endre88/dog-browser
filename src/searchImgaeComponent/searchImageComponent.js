@@ -1,5 +1,7 @@
 import '../css/searchImageComponent.css';
 import ContentComponent from '../contentComponent/contentComponent.js';
+import LazyLoad from 'vanilla-lazyload';
+import preloading from '../img/preloading.gif';
 
 class SearchImage extends ContentComponent {
   constructor() {
@@ -29,8 +31,11 @@ class SearchImage extends ContentComponent {
   displayImage(imageList) {
     this.clearErrors();
     const image = document.createElement('img');
-    image.src = imageList[Math.floor(Math.random() * imageList.length)];
-    document.querySelector('#content').appendChild(image);
+    image.src = preloading;
+    image.dataset.src = imageList[Math.floor(Math.random() * imageList.length)]; //dataset itt beleírva
+    let lazyLoadInstance = new LazyLoad();
+    document.querySelector('#content').appendChild(image).classList.add('lazy');
+    lazyLoadInstance.update();
   }
   render() {
     //html elemeket hoz létre a header-ben
@@ -57,7 +62,6 @@ class SearchImage extends ContentComponent {
             count = 1;
             document.querySelector('#imageNumberInput').value = count;
           }
-          console.log(count);
           this.clearDogs();
           for (let i = 1; i < count; i++) {
             this.displayImage(imageList); //Az imageList változó csak itt létezik, ezért került ide a 2. feladat megoldása
